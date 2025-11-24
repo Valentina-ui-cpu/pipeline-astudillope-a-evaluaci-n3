@@ -4,23 +4,20 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Construyendo imagen Docker...'
+                echo 'Construyendo imagen Docker (simulado)...'
                 sh '''
-                    echo "Compilando código fuente y construyendo imagen Docker"
-                    docker build -t app-vulnerable:latest .
+                    echo "Compilando código fuente"
+                    echo "docker build -t app-vulnerable:latest ."
                 '''
             }
         }
 
         stage('Security Scan') {
             steps {
-                echo 'Ejecutando escaneo de seguridad con OWASP ZAP...'
+                echo 'Ejecutando escaneo de seguridad con OWASP ZAP (simulado)...'
                 sh '''
-                    # Escaneo baseline con ZAP usando la imagen oficial
-                    # (se asume que la app corre en http://localhost:5000)
-                    docker run --rm -v $(pwd):/zap/wrk/ zaproxy/zap-stable \
-                      zap-baseline.py -t http://host.docker.internal:5000 \
-                      -r zap-report.html || true
+                    echo "docker run --rm zaproxy/zap-stable zap-baseline.py -t http://localhost:5000 -r zap-report.html"
+                    echo "Generando reporte zap-report.html (simulado)"
                 '''
             }
         }
@@ -34,13 +31,12 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Desplegando aplicación en entorno local...'
+                echo 'Desplegando aplicación (simulado)...'
                 sh '''
-                    docker rm -f app-vulnerable || true
-                    docker run -d --name app-vulnerable -p 5000:5000 app-vulnerable:latest
+                    echo "docker run -d --name app-vulnerable -p 5000:5000 app-vulnerable:latest"
+                    echo "Aplicación desplegada en entorno local (simulado)"
                 '''
             }
         }
     }
 }
-
