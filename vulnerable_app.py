@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, session, redirect, url_for, flash
+from markupsafe import escape
 import sqlite3
 import os
 import hashlib
@@ -109,6 +110,14 @@ def admin():
         return redirect(url_for('login'))
 
     return 'Welcome to the admin panel!'
+
+@app.route("/saludo")
+def saludo_seguro():
+    nombre = request.args.get("name", "")
+    nombre_seguro = escape(nombre)
+    return f"Hola {nombre_seguro}"
+
+
 
 
 if __name__ == '__main__':
